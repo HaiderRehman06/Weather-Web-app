@@ -66,4 +66,6 @@ button:hover{
 .temp{
     font-size: 40px;
 }
-
+.haze{
+    text-transform: capitalize;
+}

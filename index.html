@@ -9,73 +9,76 @@
 <body>
     <div class="main">
         <div id="header">
-            <h1>Weather </h1>
+            <h1>Weather</h1>
             <input type="text" class="city" placeholder="Enter a country Name" />
-            <button onclick="weather()"> Search</button>
-    </div>
-    <div id="data">
-        <div id="div1">
-            <p class="countryname"></p>
-            <p class="temp"></p>
-            <p class="feelslike"></p>
+            <button onclick="weather()">Search</button>
         </div>
-        <div id="div2">
-            <p class="humidity"></p>
-            <p class="wind"></p>
-            <p class="pressure"></p>
+        <div id="data">
+            <div id="div1">
+                <p class="countryname"></p>
+                <p class="temp"></p>
+                <p class="haze"></p>
+                <p class="feelslike"></p>
+            </div>
+            <div id="div2">
+                <p class="humidity"></p>
+                <p class="wind"></p>
+                <p class="pressure"></p>
+            </div>
         </div>
-    </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
+    
     <script>
-    function weather() {
-        let cityName = document.querySelector(".city").value;
-        let temp = document.querySelector(".temp");
-        let humidity = document.querySelector(".humidity");
-        let wind = document.querySelector(".wind");
-        let pressure = document.querySelector(".pressure");
-        let feelsLike = document.querySelector(".feelslike");
-        let countryName = document.querySelector(".countryname");
 
+        function weather() {
+            let cityName = document.querySelector(".city").value;
+            let temp = document.querySelector(".temp");
+            let humidity = document.querySelector(".humidity");
+            let wind = document.querySelector(".wind");
+            let pressure = document.querySelector(".pressure");
+            let feelsLike = document.querySelector(".feelslike");
+            let countryName = document.querySelector(".countryname");
+            let haze = document.querySelector(".haze");
 
-        axios
-        .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=1bb1a234b66e41684dbff4a9d98a2d1b&units=metric`
-        )
-        .then(function (response) {
-            console.log(response.data);
-            // country Name
-            countryName.innerHTML = `${cityName}`
+            axios
+                .get(
+                    `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=1bb1a234b66e41684dbff4a9d98a2d1b&units=metric`
+                )
+                .then(function (response) {
+                    console.log(response);
 
-            // Roundoff the number for temperature
-            let temperature = response.data.main.temp;
-            let temperatureValue = Math.round(temperature)
+                    // Country Name
+                    countryName.innerHTML = `${response.data.name}, ${response.data.sys.country}`;
 
-            temp.innerHTML = `${temperatureValue}°C`;
-            humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
+                    // Weather Description
+                    const { description } = response.data.weather[0];
+                    haze.innerHTML = `${description}`;
 
-            // Turning m/s to km/h & rounding off the result
-            let km = response.data.wind.speed * 3600 / 1000;
-            let kms = Math.round(km)
-            wind.innerHTML = `Wind: ${kms} km/h`;
+                    // Temperature
+                    let temperatureValue = Math.round(response.data.main.temp);
+                    temp.innerHTML = `${temperatureValue}°C`;
 
-            // Pressure
-            pressure.innerHTML = `Pressure: ${response.data.main.pressure} mb`;
+                    // Humidity
+                    humidity.innerHTML = `Humidity: ${response.data.main.humidity}%`;
 
-            // Feels Like Temperature
-            let feelLiketemp = response.data.main.feels_like;
-            let mahsooKaroo= Math.round(feelLiketemp)
-            feelsLike.innerHTML = `Feels like : ${mahsooKaroo}°C`
+                    // Wind Speed (Convert m/s to km/h)
+                    let kms = Math.round(response.data.wind.speed * 3600 / 1000);
+                    wind.innerHTML = `Wind: ${kms} km/h`;
 
+                    // Pressure
+                    pressure.innerHTML = `Pressure: ${response.data.main.pressure} mb`;
 
-        })
-            .catch(function (error) {
-            console.log(error);
-        });
-    }
+                    // Feels Like Temperature
+                    let mahsooKaroo = Math.round(response.data.main.feels_like);
+                    feelsLike.innerHTML = `Feels like: ${mahsooKaroo}°C`;
+                })
+                .catch(function (error) {
+                    console.error("Error fetching weather:", error);
+                });
+        }
+
     </script>
 </body>
 </html>
