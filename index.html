@@ -33,7 +33,7 @@
     <script>
 
         function weather() {
-            let cityName = document.querySelector(".city").value;
+            let cityName = document.querySelector(".city").value || "London";
             let temp = document.querySelector(".temp");
             let humidity = document.querySelector(".humidity");
             let wind = document.querySelector(".wind");
