@@ -6,10 +6,11 @@
     font-family: "Poppins";
 }
 body{
+    height: 100vh;
+    transition: 0.3s all;
     background-position: center;
     background-size: cover;
     background: linear-gradient(to top left, #5468ce ,#3d4fec,#5468ce);
-    height: 100vh;
 }
 #header{
     display: flex;
@@ -40,25 +41,17 @@ body{
 button:hover{
     cursor: pointer;
 }
-#data{
+#countrytemp{
+    border-radius: 30px;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    margin-top: 4%;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 50px;
+    margin:8% 20%;
 }
-#div1{
-    background: rgb(255, 255, 255, 0.3);
-    transform: 0.2s all;
-    border-radius: 10px;
-    padding: 15px 0px;
-    padding-left: 10px;
-    padding-right: 50px;
-}
-#div2{
-    background: rgb(255, 255, 255, 0.3);
-    border-radius: 10px;
-    font-size: small;
-    padding:10px 30px;
+#pic{
+    margin-left: -100px;
 }
 .countryname{
     font-size:xx-large;
@@ -68,4 +61,23 @@ button:hover{
 }
 .haze{
     text-transform: capitalize;
+}
+
+#weather-video{
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+#weatherImages{
+    width: 80px;
+    height: 80px;
+}
+#icons{
+    display: flex;
+    margin-top: 10px;
+}
+#icons >img{
+    width: 25px;
+    margin-right: 10px;
 }

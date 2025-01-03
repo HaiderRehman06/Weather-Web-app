@@ -13,17 +13,43 @@
             <input type="text" class="city" placeholder="Enter a country Name" />
             <button onclick="weather()">Search</button>
         </div>
+
+        <video id="weather-video" autoplay muted loop></video>
+
         <div id="data">
-            <div id="div1">
-                <p class="countryname"></p>
-                <p class="temp"></p>
-                <p class="haze"></p>
-                <p class="feelslike"></p>
-            </div>
-            <div id="div2">
-                <p class="humidity"></p>
-                <p class="wind"></p>
-                <p class="pressure"></p>
+            <div id="countrytemp">
+                <div id="div1">
+                    <p class="countryname"></p>
+                    <p class="temp"></p>
+                    <p class="haze"></p>
+                    <p class="feelslike"></p>
+                </div>
+
+                <div id="pic">
+                    <img alt="" id="weatherImages" autoplay muted loop>
+                </div>
+                <div id="info">
+                    <div id="icons">
+                        <img src="./Photo/humidity.png" alt="">
+                        <p class="humidity"></p>
+                    </div>
+                    <div id="icons">
+                        <img src="./Photo/windspeedpng.png" alt="">
+                        <p class="wind"></p>
+                    </div>
+                    <div id="icons">
+                        <img src="./Photo/pressure.png" alt="">
+                        <p class="pressure"></p>
+                    </div>
+                    <div id="icons">
+                        <img src="./Photo/longitude.png" alt="">
+                        <p class="longitude"></p>
+                    </div>
+                    <div id="icons">
+                        <img src="./Photo/latitude-.png" alt="">
+                        <p class="latitude"></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -33,7 +59,7 @@
     <script>
 
         function weather() {
-            let cityName = document.querySelector(".city").value;
+            let cityName = document.querySelector(".city").value || "London";
             let temp = document.querySelector(".temp");
             let humidity = document.querySelector(".humidity");
             let wind = document.querySelector(".wind");
@@ -41,6 +67,8 @@
             let feelsLike = document.querySelector(".feelslike");
             let countryName = document.querySelector(".countryname");
             let haze = document.querySelector(".haze");
+            let longitude = document.querySelector(".longitude");
+            let latitude = document.querySelector(".latitude");
 
             axios
                 .get(
@@ -71,14 +99,56 @@
                     pressure.innerHTML = `Pressure: ${response.data.main.pressure} mb`;
 
                     // Feels Like Temperature
-                    let mahsooKaroo = Math.round(response.data.main.feels_like);
-                    feelsLike.innerHTML = `Feels like: ${mahsooKaroo}°C`;
+                    let feelisliketemp = Math.round(response.data.main.feels_like);
+                    feelsLike.innerHTML = `Feels like: ${feelisliketemp}°C`;
+                    
+                    // Latitude and Longitude
+                    latitude.innerHTML = `Latitude: ${response.data.coord.lat}°`;
+                    longitude.innerHTML = `Longitude: ${response.data.coord.lon}°`;
+
+                    //Runs the functon for images & videos below
+                    weatherImagesandVideos(description);
                 })
                 .catch(function (error) {
                     console.error("Error fetching weather:", error);
+                    alert("Error fetching Weather Data")
                 });
         }
-
+            // Call the weather function for the default city (London) on page load
+            window.onload = function() {
+            weather();  // Calls weather with default "London" city
+        };
+        function weatherImagesandVideos(description){
+            let weatherImage = document.querySelector("#weatherImages");
+            let weatherVideo = document.querySelector("#weather-video");
+            
+            if(description.includes("haze")){
+                weatherImage.src = "./gif/haze.gif";
+            }else if(description.includes("overcast") || description.includes("clouds")){
+                weatherImage.src = "./gif/Cloudy.gif";
+                weatherVideo.src = "./Video/overcastclouds.mp4"
+            }else if(description.includes("rain")){
+                weatherImage.src = "./gif/rain-cloud.gif";
+                weatherVideo.src = "./Video/raining.mp4"
+            }else if(description.includes("clear") || description.includes("sky")){
+                weatherImage.src = "./gif/sunny.gif";
+                weatherVideo.src = "./Video/Sunnyc.mp4"
+            }else if(description.includes("fog")){
+                weatherImage.src = "./gif/fog.gif";
+                weatherVideo.src ="./Vdeio/fog.mp4"
+            }else if(description.includes("thunderstorm")){
+                weatherImage.src = "./gif/thunder-clouds.gif";
+                weatherVideo.src = "./Video/thunderstorm.mp4"
+            }else if(description.includes("mist")){
+                weatherImages.src = "./gif/Cloudy.gif"
+                weatherVideo.src = "./Video/overcastclouds.mp4"
+            }else if(description.includes("snow")){
+                weatherImage.src = "./gif/snow.gif";
+            }else {
+                weatherImage.src = "./images/default.jpg";
+                weatherVideo.src = "./videos/default.mp4"; 
+            }
+    }
     </script>
 </body>
 </html>
