@@ -62,7 +62,6 @@ button:hover{
 .haze{
     text-transform: capitalize;
 }
-
 #weather-video{
     z-index: -1;
     position: absolute;
